@@ -42,7 +42,7 @@ const args = generateEasyTierArguments({
     role: "host",
 });
 
-// 生成不是u服主时的EasyTier参数，返回字符数组
+// 生成不是服主时的EasyTier参数，返回字符数组
 const args = generateEasyTierArguments({
     invitationCode: code,
     nodes,
