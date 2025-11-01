@@ -1,0 +1,35 @@
+{
+  "name": "easytier-pcl",
+  "version": "1.0.0",
+  "description": "a node.js implementation of \"龙腾猫跃\"'s 'Pure connect Labeling' protocol.",
+  "keywords": [
+    "Typescript",
+    "Minecraft",
+    "Zerotier",
+    "PCL2"
+  ],
+  "homepage": "https://github.com/TunaFish2K/node-easytier-pcl#readme",
+  "bugs": {
+    "url": "https://github.com/TunaFish2K/node-easytier-pcl/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TunaFish2K/node-easytier-pcl.git"
+  },
+  "license": "MIT",
+  "author": "TunaFish2K",
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "test:verbose": "jest --verbose"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.9.2",
+    "jest": "^30.2.0",
+    "typescript": "^5.9.3"
+  }
+}
