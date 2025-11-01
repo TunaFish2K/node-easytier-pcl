@@ -47,7 +47,7 @@ const args = generateEasyTierArguments({
     invitationCode: code,
     nodes,
     role: "client",
-    hostnameSuffix: "-Player111", // 详见PCL协议文档
+    hostnameSuffix: "-Player111", // check the PCL protocol documentation for detail
 });
 ```
 
