@@ -193,6 +193,7 @@ export function generateEasyTierArguments({
         // disallow being connected, for safety concerns
         result.push(`--tcp-whitelist=0`);
         result.push(`--udp-whitelist=0`);
+        result.push("-d");
     }
 
     return result;
