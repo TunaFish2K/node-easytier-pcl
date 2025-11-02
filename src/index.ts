@@ -138,6 +138,7 @@ const HOST_IP = "10.114.114.114";
  * @param param0.role whether the machine is hosting the minecraft server
  * @param param0.hostname if being server, a hostname must be provided. format like `Server-${name}` is suggested
  * @param param0.hostnameSuffix if being client, a suffix must be provided
+ * @param param0.portToForWard if being client, the remote server need to be forwarded to a local port
  */
 export function generateEasyTierArguments({
     invitationCode,
@@ -151,7 +152,7 @@ export function generateEasyTierArguments({
           role: "host";
           hostname: string;
       }
-    | { role: "client"; hostnameSuffix: string }
+    | { role: "client"; hostnameSuffix: string; portToForward: number }
 )): string[] {
     const data = parseInvitationCode(invitationCode);
     const result = [];
@@ -180,6 +181,15 @@ export function generateEasyTierArguments({
     } else {
         // create a valid hostname
         result.push(`--hostname=Client${rest.hostnameSuffix}`);
+        // local port forwarding
+        result.push(
+            ...["tcp", "udp"].flatMap((protocol) =>
+                ["[::1]", "127.0.0.1"].map(
+                    (address) =>
+                        `--port-forward ${protocol}://${address}:${rest.portToForward}/${HOST_IP}:${data.port}`
+                )
+            )
+        );
         // disallow being connected, for safety concerns
         result.push(`--tcp-whitelist=0`);
         result.push(`--udp-whitelist=0`);
