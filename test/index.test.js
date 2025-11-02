@@ -83,10 +83,10 @@ test("generate easytier arguments", () => {
         `--network-name=${codeData.networkName}`,
         `--network-secret=${codeData.networkSecret}`,
         "--hostname=Client-test",
-        "--port-forward tcp://[::1]:4444/10.114.114.114:4095",
-        "--port-forward tcp://127.0.0.1:4444/10.114.114.114:4095",
-        "--port-forward udp://[::1]:4444/10.114.114.114:4095",
-        "--port-forward udp://127.0.0.1:4444/10.114.114.114:4095",
+        "--port-forward=tcp://[::1]:4444/10.114.114.114:4095",
+        "--port-forward=tcp://127.0.0.1:4444/10.114.114.114:4095",
+        "--port-forward=udp://[::1]:4444/10.114.114.114:4095",
+        "--port-forward=udp://127.0.0.1:4444/10.114.114.114:4095",
         "--tcp-whitelist=0",
         "--udp-whitelist=0"
     ]);

@@ -186,7 +186,7 @@ export function generateEasyTierArguments({
             ...["tcp", "udp"].flatMap((protocol) =>
                 ["[::1]", "127.0.0.1"].map(
                     (address) =>
-                        `--port-forward ${protocol}://${address}:${rest.portToForward}/${HOST_IP}:${data.port}`
+                        `--port-forward=${protocol}://${address}:${rest.portToForward}/${HOST_IP}:${data.port}`
                 )
             )
         );
