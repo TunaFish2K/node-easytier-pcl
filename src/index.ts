@@ -136,6 +136,7 @@ const HOST_IP = "10.114.114.114";
  * @param param0.invitationCode
  * @param param0.nodes the urls of easytier nodes, you can call `getAvailableNodes` to get ones recorded on the easytier uptime api
  * @param param0.role whether the machine is hosting the minecraft server
+ * @param param0.hostname if being server, a hostname must be provided. format like `Server-${name}` is suggested
  * @param param0.hostnameSuffix if being client, a suffix must be provided
  */
 export function generateEasyTierArguments({
@@ -148,6 +149,7 @@ export function generateEasyTierArguments({
 } & (
     | {
           role: "host";
+          hostname: string;
       }
     | { role: "client"; hostnameSuffix: string }
 )): string[] {
@@ -169,6 +171,9 @@ export function generateEasyTierArguments({
         // a fixed ip for the host, defining the only host
         result.push("-i");
         result.push(`${HOST_IP}`);
+        // hostname
+        result.push(`--hostname=${rest.hostname}`);
+
         // allow connection to the minecraft server only, for safety concerns
         result.push(`--tcp-whitelist=${data.port}`);
         result.push(`--udp-whitelist=${data.port}`);

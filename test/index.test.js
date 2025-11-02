@@ -53,7 +53,8 @@ test("generate easytier arguments", () => {
         nodes: [
             "tcp://example.com:8080"
         ],
-        role: "host"
+        role: "host",
+        hostname: "Server-test"
     })).toEqual([
         "--encryption-algorithm=chacha20",
         "-p",
@@ -62,6 +63,7 @@ test("generate easytier arguments", () => {
         `--network-secret=${codeData.networkSecret}`,
         "-i",
         "10.114.114.114",
+        "--hostname=Server-test",
         "--tcp-whitelist=4095",
         "--udp-whitelist=4095"
     ]);
