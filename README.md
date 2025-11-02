@@ -40,6 +40,7 @@ const args = generateEasyTierArguments({
     invitationCode: code,
     nodes,
     role: "host",
+    hostname: "Server-test",
 });
 
 // 生成不是服主时的EasyTier参数，返回字符数组
@@ -48,6 +49,7 @@ const args = generateEasyTierArguments({
     nodes,
     role: "client",
     hostnameSuffix: "-Player111", // 详见PCL协议文档
+    portToForward: 10888, // 在本地转发的端口
 });
 ```
 

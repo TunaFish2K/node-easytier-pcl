@@ -40,6 +40,7 @@ const args = generateEasyTierArguments({
     invitationCode: code,
     nodes,
     role: "host",
+    hostname: "Server-test",
 });
 
 // generate cli arguments when not being a host, returns a string array
@@ -48,6 +49,7 @@ const args = generateEasyTierArguments({
     nodes,
     role: "client",
     hostnameSuffix: "-Player111", // check the PCL protocol documentation for detail
+    portToForward: 10888,
 });
 ```
 
