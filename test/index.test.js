@@ -55,7 +55,7 @@ test("generate easytier arguments", () => {
         ],
         role: "host"
     })).toEqual([
-        "--encryption=chacha20",
+        "--encryption-algorithm=chacha20",
         "-p",
         "tcp://example.com:8080",
         `--network-name=${codeData.networkName}`,
@@ -74,7 +74,7 @@ test("generate easytier arguments", () => {
         role: "client",
         hostnameSuffix: "-test"
     })).toEqual([
-        "--encryption=chacha20",
+        "--encryption-algorithm=chacha20",
         "-p",
         "tcp://example.com:8080",
         `--network-name=${codeData.networkName}`,

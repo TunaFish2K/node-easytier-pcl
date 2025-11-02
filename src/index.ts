@@ -154,7 +154,7 @@ export function generateEasyTierArguments({
     const data = parseInvitationCode(invitationCode);
     const result = [];
 
-    result.push(`--encryption=${ENCRYPTION_ALGORITHM}`);
+    result.push(`--encryption-algorithm=${ENCRYPTION_ALGORITHM}`);
 
     // nodes arguments
     for (const node of nodes) {
