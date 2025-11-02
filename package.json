@@ -20,6 +20,7 @@
   "author": "TunaFish2K",
   "type": "commonjs",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.tss",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
