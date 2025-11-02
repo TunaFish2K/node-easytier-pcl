@@ -1,6 +1,6 @@
 {
   "name": "easytier-pcl",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a node.js implementation of \"龙腾猫跃\"'s 'Pure connect Labeling' protocol.",
   "keywords": [
     "Typescript",
@@ -20,7 +20,10 @@
   "author": "TunaFish2K",
   "type": "commonjs",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.tss",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
