@@ -84,7 +84,7 @@ export type InvitationCodeData = ReturnType<typeof parseInvitationCode>;
  * get available nodes from the easytier uptime api (https://uptime.easytier.cn/api/nodes)
  * @returns a string array containing urls of all available nodes
  */
-export async function getAvailableNodes() {
+export async function getAvailableNodes(tags: string[] = ["MC", "MC中继"]) {
     let page = 1;
     let totalPage = 0;
 
@@ -92,7 +92,9 @@ export async function getAvailableNodes() {
 
     async function fetchPage(page: number) {
         const url = new URL("https://uptime.easytier.cn/api/nodes");
-        url.searchParams.set("tags", "MC");
+        for (const tag of tags) {
+            url.searchParams.set("tags", tag);
+        }
         url.searchParams.set("per_page", "200");
         url.searchParams.set("page", page.toString());
 
