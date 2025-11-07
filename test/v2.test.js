@@ -252,57 +252,6 @@ class MockResponse {
     }
 }
 
-test("fetch listed nodes v2", async () => {
-    // test normal request
-    const nodes = await v2.getAvailableNodes();
-    nodes.forEach(node => expect(typeof node).toBe("string"));
-
-    // save original fetch
-    const fetch = global.fetch;
-
-    // mock failure
-    // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve(new MockResponse({
-        success: false,
-        error: "mocked",
-        message: "mocked error"
-    })));
-    await v2.getAvailableNodes().then(() => expect(false).toBe(true)).catch(() => { });
-
-    // mock paging
-    // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve(new MockResponse({
-        success: true,
-        data: {
-            items: [{
-                address: "tcp://example.com:8080"
-            }],
-            total_pages: 3
-        }
-    })));
-    expect(await v2.getAvailableNodes()).toEqual(Array(3).fill("tcp://example.com:8080"));
-
-    // mock custom tags
-    // @ts-ignore
-    global.fetch = jest.fn((url) => {
-        // verify tags parameter is set correctly
-        expect(url.toString()).toContain("tags=Custom");
-        return Promise.resolve(new MockResponse({
-            success: true,
-            data: {
-                items: [{
-                    address: "tcp://custom.com:8080"
-                }],
-                total_pages: 1
-            }
-        }));
-    });
-    await v2.getAvailableNodes(["Custom"]);
-
-    // restore original fetch
-    global.fetch = fetch;
-});
-
 test("nodeID edge cases v2", () => {
     // test minimum nodeID
     const code0 = v2.generateInvitationCode(8080, { nodeID: 0 });
@@ -388,3 +337,6 @@ test("round-trip consistency v2", () => {
         expect(parsed2.nodeID).toBe(originalNodeID);
     }
 });
+
+// getNodePingMS has been moved to node.ts
+// This test is now in node.test.js

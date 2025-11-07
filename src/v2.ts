@@ -101,55 +101,6 @@ export function parseInvitationCode(code: string) {
 
 export type InvitationCodeData = ReturnType<typeof parseInvitationCode>;
 
-/**
- * get available nodes from the easytier uptime api (https://uptime.easytier.cn/api/nodes)
- * @returns a string array containing urls of all available nodes
- */
-export async function getAvailableNodes(tags: string[] = ["MC"]) {
-    let page = 1;
-    let totalPage = 0;
-
-    let nodes = [];
-
-    async function fetchPage(page: number) {
-        const url = new URL("https://uptime.easytier.cn/api/nodes");
-        for (const tag of tags) {
-            url.searchParams.set("tags", tag);
-        }
-        url.searchParams.set("per_page", "200");
-        url.searchParams.set("page", page.toString());
-
-        const result = (await (await fetch(url)).json()) as {
-            success: boolean;
-            data: {
-                items: {
-                    address: string;
-                }[];
-                total_pages: number;
-            };
-            error: string | null;
-            message: string | null;
-        };
-        if (!result.success) {
-            throw new Error(`${result.error}, ${result.message}`);
-        }
-
-        return {
-            nodes: result.data.items.map((v) => v.address),
-            totalPages: result.data.total_pages,
-        };
-    }
-
-    while (true) {
-        const result = await fetchPage(page);
-        nodes.push(...result.nodes);
-        if (page >= result.totalPages) break;
-        page += 1;
-    }
-
-    return nodes;
-}
-
 const ENCRYPTION_ALGORITHM = "chacha20";
 const HOST_IP = "10.114.114.114";
 
