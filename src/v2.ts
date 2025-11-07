@@ -88,7 +88,7 @@ export function parseInvitationCode(code: string) {
     const networkName = code.slice(0, 11);
     const networkSecret = code.slice(12, 17);
     const nodeID = parseInt(code.slice(20, 23), 16);
-    const attachment = code.slice(17);
+    const attachment = code.slice(23);
 
     return {
         port,

@@ -1,6 +1,6 @@
 {
   "name": "easytier-pcl",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "a node.js implementation of \"龙腾猫跃\"'s 'Pure connect Labeling' protocol.",
   "keywords": [
     "Typescript",

@@ -17,7 +17,7 @@ test("parse invitation code v2", () => {
         networkName: "P0FFF-ABCDE",
         networkSecret: "H1JKL",
         nodeID: 0,
-        attachment: "-02000-attachment"
+        attachment: "-attachment"
     });
     // with non-zero nodeID
     expect(v2.parseInvitationCode("P0FFF-ABCDE-H1JKL-021FF")).toMatchObject({
@@ -123,7 +123,7 @@ test("generate invitation code v2", () => {
         attachment: "-test_attachment"
     });
     expect(codeWithAttachment.endsWith("-test_attachment")).toBe(true);
-    expect(v2.parseInvitationCode(codeWithAttachment).attachment).toEqual("-02000-test_attachment");
+    expect(v2.parseInvitationCode(codeWithAttachment).attachment).toEqual("-test_attachment");
 
     // test if invalid port throws error
     expect(() => v2.generateInvitationCode(-1, { nodeID: 0 })).toThrow();
