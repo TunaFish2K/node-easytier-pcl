@@ -1,26 +1,28 @@
 /**
- * check if the invitation code is valid
+ * check if the invitation code is valid,
  * the code is invalid if:
- * code doesn't start with 'P'
- * code[5] or code[11] is't '-'
- * code[1:5] isn't a valid hex string (port)
+ * - code doesn't start with 'P'
+ * - code[5] or code[11] or code[17] is't '-'
+ * - code[1:5] isn't a valid hex string (port)
+ * - code[18:20] isn't 02 (wrong version)
+ * - code[20:23] isn't a valid hex string (init node id)
+ * - code[0:23] contains something other than 0-9A-Z^I^O
  * @param code
  * @returns
  */
 export function isInvitationCodeValid(code: string) {
+    if (code.length < 23) return false;
     if (code[0] !== "P") return false;
     if (code[5] !== "-") return false;
     if (code[11] !== "-") return false;
+    if (code[17] !== "-") return false;
+    if (code.slice(18, 20) !== "02") return false;
+    if (Number.isNaN(parseInt(code.slice(1, 5), 16))) return false;
+    if (Number.isNaN(parseInt(code.slice(20, 23), 16))) return false;
     if (
-        [...code.slice(1, 5)].findIndex(
-            (c) => "0123456789ABCDEF".indexOf(c) === -1
-        ) !== -1
-    )
-        return false;
-    if (
-        [...code.slice(0, 17)].findIndex(
+        [...code.slice(0, 23)].findIndex(
             (c) =>
-                [..."0123456789ABCDEFGHIJKLMNOPQRSTUVWYXZ-"]
+                [..."0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-"]
                     .filter((c0) => !["O", "I"].includes(c0))
                     .indexOf(c) === -1
         ) !== -1
@@ -32,17 +34,30 @@ export function isInvitationCodeValid(code: string) {
 /**
  * create the invitation code
  * @param port the port the minecraft server is listening at
- * @param attachment u can attach any string to the end of the code if u want
+ * @param param1
+ * @param param1.attachment optional text attached to the tail of the code
+ * @param param1.nodeID the id of the initial node
  * @returns you need to parse the code to get the easy tier information
  */
-export function generateInvitationCode(port: number, attachment?: string) {
+export function generateInvitationCode(
+    port: number,
+    {
+        attachment,
+        nodeID = 0,
+    }: {
+        attachment?: string;
+        nodeID: number;
+    }
+) {
     if (port % 1 !== 0 || port < 0 || port > 65535)
         throw new Error("port is invalid!");
+    if (nodeID % 1 !== 0 || nodeID < 0 || nodeID > 4095)
+        throw new Error("nodeID is invalid!");
     function generate() {
         let result: string[] = [];
         for (let i = 0; i < 5; i++) {
             result.push(
-                "01234567890ABCDEFGHIJKLMNOPQRSTUVWYXZ"[
+                "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[
                     Math.floor(Math.random() * 36)
                 ]!
             );
@@ -50,7 +65,11 @@ export function generateInvitationCode(port: number, attachment?: string) {
         return result.join("");
     }
     return (
-        `P${port.toString(16).padStart(4, "0")}-${generate()}-${generate()}`
+        `P${port
+            .toString(16)
+            .padStart(4, "0")}-${generate()}-${generate()}-02${nodeID
+            .toString(16)
+            .padStart(3, "0")}`
             .replaceAll("O", "0")
             .replaceAll("I", "1")
             .toUpperCase() + (attachment ?? "")
@@ -68,13 +87,15 @@ export function parseInvitationCode(code: string) {
     const port = parseInt(code.slice(1, 5), 16);
     const networkName = code.slice(0, 11);
     const networkSecret = code.slice(12, 17);
+    const nodeID = parseInt(code.slice(20, 23), 16);
     const attachment = code.slice(17);
 
     return {
         port,
         networkName,
         networkSecret,
-        attachment: attachment !== "" ? attachment : undefined,
+        nodeID,
+        attachment: attachment.length > 6 ? attachment : undefined,
     };
 }
 
